@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
+use App\Filament\Resources\OrderResource\RelationManagers\AddressRelationManager;
 use App\Models\Order;
 use App\Models\Product;
 use Filament\Forms;
@@ -58,8 +59,6 @@ class OrderResource extends Resource
                             'paypal'           => 'PayPal',
                             'cryptocurrency'   => 'Cryptocurrency',
                             'debitcard'        => 'Debit Card',
-                            'giftcard'         => 'Gift Card',
-                            'virtualaccount'   => 'Virtual Account',
                             'qrcode'           => 'QR Code Payment',
                             'shopnowpaylater'  => 'Shop Now, Pay Later',
                         ])
@@ -216,6 +215,7 @@ class OrderResource extends Resource
 
                 TextColumn::make('payment_status')
                 ->searchable()
+                ->badge()
                 ->sortable(),
 
                 TextColumn::make('currency')
@@ -269,7 +269,7 @@ class OrderResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            AddressRelationManager::class
         ];
     }
 
