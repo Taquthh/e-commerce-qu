@@ -22,15 +22,15 @@
 
           <!-- Navigation Links -->
           <nav class="hidden md:flex space-x-10">
-              <a href="/" class="text-base font-medium text-gray-500 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-300 relative group">
+              <a wire:navigate href="/" class="text-base {{ request()->is('/') ? 'text-blue-600' : 'text-gray-500'}}  font-medium  hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-300 relative group">
                   Home
                   <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
               </a>
-              <a href="/categories" class="text-base font-medium text-gray-500 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-300 relative group">
+              <a wire:navigate href="/categories" class="text-base {{ request()->is('categories') ? 'text-blue-600' : 'text-gray-500'}} font-medium hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-300 relative group">
                   Categories
                   <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
               </a>
-              <a href="/products" class="text-base font-medium text-gray-500 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-300 relative group">
+              <a wire:navigate href="/products" class="text-base {{ request()->is('products') ? 'text-blue-600' : 'text-gray-500'}} font-medium  hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-300 relative group">
                   Products
                   <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
               </a>
