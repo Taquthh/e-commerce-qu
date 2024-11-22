@@ -129,7 +129,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           @foreach($brands as $brand)
               <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center transition duration-300 ease-in-out transform hover:scale-105">
-                  <img src="{{ url('storage', $brand->image)}}" alt="{{ $brand->name}} " class="w-24 h-24 object-contain mb-4">
+                  <img src="{{ url('storage', $brand->image)}}" alt="{{ $brand->name}} " class="w-24 h-24 object-cover *: mb-4">
                   <h3 class="text-xl font-semibold text-gray-800">{{ $brand->name }}</h3>
               </div>
           @endforeach
@@ -138,33 +138,55 @@
 </section>
 
 <!-- Category Section -->
-<section class="py-20 bg-blue-50">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Browse <span class="text-blue-600">Categories</span></h2>
-          <p class="mt-4 text-xl text-gray-600">Explore our wide range of product categories to find exactly what you need.</p>
-          <div class="mt-4 flex justify-center">
-              <div class="w-16 h-1 rounded-full bg-blue-600 inline-flex"></div>
+<div class="bg-orange-200 py-20">
+  <div class="max-w-xl mx-auto">
+    <div class="text-center ">
+      <div class="relative flex flex-col items-center">
+        <h1 class="text-5xl font-bold dark:text-gray-200"> Browse <span class="text-blue-500"> Categories
+          </span> </h1>
+        <div class="flex w-40 mt-2 mb-6 overflow-hidden rounded">
+          <div class="flex-1 h-2 bg-blue-200">
           </div>
+          <div class="flex-1 h-2 bg-blue-400">
+          </div>
+          <div class="flex-1 h-2 bg-blue-600">
+          </div>
+        </div>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          @foreach($categories as $category)
-              <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:scale-105">
-                  <img src="{{ url('storage', $category->image)}}" alt="{{ $category->name}} " class="w-full h-48 object-cover">
-                  <div class="p-4">
-                      <h3 class="text-xl font-semibold text-gray-800">{{ $category->name }}</h3>
-                      <a href="#" class="mt-2 inline-flex items-center text-blue-600 hover:underline">
-                          View Products
-                          <svg class="w-4 h-4 ml-1" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                              <path d="M5 12h14M12 5l7 7-7 7"></path>
-                          </svg>
-                      </a>
-                  </div>
-              </div>
-          @endforeach
-      </div>
+      <p class="mb-12 text-base text-center text-gray-500">
+        Explore our wide range of product categories to find exactly what you need.
+      </p>
+    </div>
   </div>
-</section>
+
+  <div class="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto">
+    <div class="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+  
+        @foreach($categories as $category)
+            <a class="group flex flex-col bg-white border shadow-sm rounded-xl hover:shadow-md transition dark:bg-slate-900 dark:border-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
+                <div class="p-4 md:p-5">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                    <img src="{{ url('storage', $category->image)}}" alt="{{ $category->name}} " class="h-[2.375rem] w-[2.375rem] rounded-full" src="https://i01.appmifile.com/v1/MI_18455B3E4DA706226CF7535A58E875F0267/pms_1632893007.55719480!400x400!85.png" alt="Image Description">
+                    <div class="ms-3">
+                        <h3 class="group-hover:text-blue-600 font-semibold text-gray-800 dark:group-hover:text-gray-400 dark:text-gray-200">
+                            {{ $category->name }}
+                        </h3>
+                    </div>
+                    </div>
+                    <div class="ps-3">
+                    <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18 6-6-6-6" />
+                    </svg>
+                    </div>
+                </div>
+                </div>
+            </a>
+        @endforeach
+    </div>
+  </div>
+
+</div>
 
   <!-- Featured Products -->
   <section class="py-20 bg-white">
@@ -174,12 +196,23 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             @foreach($products as $product)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:scale-105">
-                    <img src="{{ url('storage', $product->images[0])}}" alt="{{ $product->name}}" class="w-full h-48 object-cover">
+                    <img src="{{ url('storage', $product->images[0])}}" alt="{{ $product->name }}" class="w-full h-48 object-cover">
                     <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">{{ $product->name}}</h3>
-                        <p class="text-gray-600 mt-2">{{ $product->description}}</p>
+                        <h3 class="text-xl font-semibold text-gray-800">{{ $product->name }}</h3>
+                        <p class="text-gray-600 mt-2">
+                            @php
+                                $shortDesc = Str::limit($product->description, 100, '...');
+                            @endphp
+                            <span class="short-description">{{ $shortDesc }}</span>
+                            <span class="full-description hidden">{{ $product->description }}</span>
+                        </p>
+                        <button 
+                            class="text-blue-600 hover:underline selengkapnya-btn" 
+                            onclick="toggleDescription(this)">
+                            More
+                        </button>
                         <div class="mt-4 flex justify-between items-center">
-                            <span class="text-xl font-bold text-blue-600">Rp.{{$product->price}}</span>
+                            <span class="text-xl font-bold text-blue-600">Rp.{{ $product->price }}</span>
                             <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300">
                                 Add to Cart
                             </button>
@@ -189,7 +222,7 @@
             @endforeach
         </div>
     </div>
-  </section>
+</section>
 
 
 <style>

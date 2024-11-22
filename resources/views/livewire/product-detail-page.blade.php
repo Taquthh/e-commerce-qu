@@ -6,7 +6,7 @@
               <div class="w-full mb-8 md:w-1/2 md:mb-0" x-data="{ mainImage: 'https://m.media-amazon.com/images/I/71f5Eu5lJSL._SX679_.jpg' }">
                 <div class="sticky top-0 z-50 overflow-hidden ">
                   <div class="relative mb-6 lg:mb-10 lg:h-2/4 ">
-                    <img x-bind:src="mainImage" alt="" class="object-cover w-full lg:h-full ">
+                    <img x-bind:src="mainImage" alt="" class="object-cover -z-50 w-full lg:h-full ">
                   </div>
                   <div class="flex-wrap hidden md:flex ">
                     <div class="w-1/2 p-2 sm:w-1/4" x-on:click="mainImage='https://m.media-amazon.com/images/I/71f5Eu5lJSL._SX679_.jpg'">
