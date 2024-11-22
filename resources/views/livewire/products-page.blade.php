@@ -4,9 +4,9 @@
 
         <div class="flex flex-col lg:flex-row gap-8">
             <!-- Enhanced Filters Sidebar -->
-            <div class="w-full lg:w-1/4 space-y-6">
+            <div class="w-[20rem] space-y-6">
                 <!-- Categories Card with Hover Effects -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div class="bg-white w-[20rem] dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow duration-300">
                     <div class="p-5">
                         <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2 group">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500 group-hover:rotate-180 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -32,7 +32,7 @@
                 </div>
 
                 <!-- Enhanced Brand Card -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div class="bg-white w-[20rem] dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow duration-300">
                     <div class="p-5">
                         <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2 group">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -58,7 +58,7 @@
                 </div>
 
                 <!-- Enhanced Product Status -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div class="bg-white w-[20rem] dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow duration-300">
                     <div class="p-5">
                         <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2 group">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500 group-hover:rotate-45 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -105,7 +105,7 @@
                 </div>
 
                 <!-- Enhanced Price Range -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div class="bg-white w-[20rem] dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow duration-300">
                     <div class="p-5">
                         <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2 group">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500 group-hover:bounce transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -155,7 +155,7 @@
                 </div>
 
                 <div class="w-full">
-                    <div class="flex gap-8">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                         @foreach($products as $product)
                             <div class="max-w-xs group relative transform transition-all duration-300 ease-out">
                                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-2xl transition-shadow duration-300">
@@ -193,12 +193,12 @@
                                     @endif
 
                                     <!-- Product Image -->
-                                    <div class="relative overflow-hidden aspect-w-1 aspect-h-1">
+                                    <div class="relative h-[15rem] w-[20rem] overflow-hidden">
                                         <img 
                                             wire:navigate
                                             src="{{ url('storage', $product->images[0])}}"
                                             alt="{{ $product->name }}"
-                                            class="w-full h-34 mx-auto object-cover transition-opacity duration-300 ease-in-out"
+                                            class="w-full h-full object-cover bg-gray-100 dark:bg-gray-900 group-hover:scale-105 transition-transform duration-500"
                                         >
                                         
                                         <!-- Quick Actions Overlay -->
