@@ -128,57 +128,118 @@
               </div>
 
               {{-- Price & Stock Status --}}
-              <div class="flex items-baseline gap-4">
-                <p class="text-3xl font-bold text-gray-900">
-                  {{ Number::currency($product->price, 'USD')}}
-                </p>
-                @if($product->stock > 0)
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                  In Stock
-                </span>
+              <div class="flex items-center gap-6 p-5 bg-gradient-to-r from-gray-100 to-gray-50 rounded-lg shadow-lg border border-gray-200">
+                <!-- Price -->
+                <div class="flex items-center gap-2">
+                  <p class="text-4xl font-extrabold text-gray-900 tracking-tight">
+                    {{ Number::currency($product->price, 'USD') }}
+                  </p>
+                  <span class="text-sm font-medium text-gray-500">per unit</span>
+                </div>
+                
+                <!-- Stock Status -->
+                @if($product->in_stock)
+                  <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center justify-center w-8 h-8 bg-green-500 text-white rounded-full shadow-md">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </span>
+                    <span class="text-sm font-semibold text-green-800 bg-green-100 px-3 py-1 rounded-lg shadow-sm">
+                      In Stock
+                    </span>
+                  </div>
                 @else
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                  Out of Stock
-                </span>
+                  <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center justify-center w-8 h-8 bg-red-500 text-white rounded-full shadow-md">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </span>
+                    <span class="text-sm font-semibold text-red-800 bg-red-100 px-3 py-1 rounded-lg shadow-sm">
+                      Out of Stock
+                    </span>
+                  </div>
                 @endif
               </div>
+                
 
               {{-- Ratings --}}
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-4">
                 <div class="flex items-center">
                   @for($i = 0; $i < 5; $i++)
-                    <svg class="w-5 h-5 {{ $i < 4 ? 'text-yellow-400' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-6 h-6 {{ $i < 4 ? 'text-yellow-400' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                     </svg>
                   @endfor
                 </div>
-                <span class="text-sm text-gray-600">4.0 (128 reviews)</span>
+                <span class="text-base text-gray-700 font-medium">4.0 (128 reviews)</span>
               </div>
             </div>
 
-            {{-- Description --}}
-            <div class="prose prose-sm sm:prose max-w-none text-gray-600">
-              {!! Str::markdown($product->description)!!}
-            </div>
-
-            {{-- Variants (if any) --}}
-            @if(isset($product->variants))
-            <div class="space-y-3">
-              <label class="block text-sm font-medium text-gray-700">
-                Select Size
-              </label>
-              <div class="flex flex-wrap gap-2">
-                @foreach(['S', 'M', 'L', 'XL'] as $size)
-                <button class="px-4 py-2 text-sm font-medium rounded-lg border-2 transition-colors" 
-                  x-data="{ selected: false }"
-                  x-on:click="selected = !selected"
-                  x-bind:class="selected ? 'border-blue-500 text-blue-500' : 'border-gray-300 text-gray-700 hover:border-gray-400'">
-                  {{ $size }}
-                </button>
-                @endforeach
+            {{-- Variants --}}
+            <div x-data="{
+              selectedVariant: '64GB',
+              selectedColor: 'Black',
+              selectedSeries: 'Pro Max',
+              variants: {
+                'Pro Max': { '128GB': 999, '256GB': 1099, '1TB': 1199 }
+              },
+              colors: ['Black', 'Silver', 'Gold', 'Blue'],
+            }" class="space-y-6">
+            
+              {{-- Pilihan Seri --}}
+              <div class="space-y-3">
+            
+              {{-- Pilihan Varian Kapasitas --}}
+              <div class="space-y-3">
+                <label for="variant" class="block text-sm font-medium text-gray-700">
+                  Choose Capacity
+                </label>
+                <select 
+                  id="variant"
+                  x-model="selectedVariant"
+                  class="block w-full px-4 py-2 border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                >
+                  <template x-for="(price, variant) in variants[selectedSeries]" :key="variant">
+                    <option :value="variant" x-text="variant"></option>
+                  </template>
+                </select>
               </div>
+            
+              {{-- Pilihan Warna --}}
+              <div class="space-y-3">
+                <label for="color" class="block text-sm font-medium text-gray-700">
+                  Choose Color
+                </label>
+                <div id="color" class="flex items-center gap-3">
+                  <template x-for="color in colors" :key="color">
+                    <button 
+                      type="button"
+                      :class="{
+                        'ring-2 ring-offset-2 ring-blue-500': selectedColor === color,
+                        'border border-gray-300': selectedColor !== color
+                      }"
+                      x-on:click="selectedColor = color"
+                      :style="{ backgroundColor: color.toLowerCase() }"
+                      class="w-10 h-10 rounded-full focus:outline-none transition-all"
+                    >
+                      <span class="sr-only" x-text="color"></span>
+                    </button>
+                  </template>
+                </div>
+              </div>
+            
+              {{-- Tampilan Harga --}}
+              <div class="flex items-center gap-2 mt-4">
+                <p class="text-4xl font-extrabold text-gray-900 tracking-tight">
+                  $<span x-text="variants[selectedSeries][selectedVariant]"></span>
+                </p>
+                <span class="text-sm font-medium text-gray-500">per unit</span>
+              </div>
+            
             </div>
-            @endif
+            
 
             {{-- Quantity Selector --}}
             <div class="space-y-3">
