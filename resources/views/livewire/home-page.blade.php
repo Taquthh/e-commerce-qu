@@ -129,7 +129,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           @foreach($brands as $brand)
               <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center transition duration-300 ease-in-out transform hover:scale-105">
-                  <img src="{{ url('storage', $brand->image)}}" alt="{{ $brand->name}} " class="w-24 h-24 object-cover *: mb-4">
+                  <img src="{{ url('storage', $brand->image)}}" alt="{{ $brand->name}} " class="w-24 h-24 object-contain *: mb-4">
                   <h3 class="text-xl font-semibold text-gray-800">{{ $brand->name }}</h3>
               </div>
           @endforeach

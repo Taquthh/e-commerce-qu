@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Product;
 use Livewire\Component;
 
@@ -9,12 +11,14 @@ class ProductsPage extends Component
 {
     public function render()
     {
-        $products = Product::where('in_stock', 1)
-        ->orWhere('on_sale', 1)
-        ->get();
+        $categories = Category::where('is_active', 1)->get(['id','name','slug']);
+        $brands = Brand::where('is_active', 1)->get(['id','name','slug']);
+        $products = Product::query()->where('is_active', 1);
 
         return view('livewire.products-page', [
-            'products' => $products
+            'products' => $products->paginate(8),
+            'categories' => $categories,
+            'brands' => $brands
         ]);
     }
 }
