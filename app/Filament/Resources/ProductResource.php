@@ -13,6 +13,7 @@ use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -62,7 +63,7 @@ class ProductResource extends Resource
                         ->dehydrated()
                         ->unique(Product::class, 'slug', ignoreRecord: true),
 
-                        MarkdownEditor::make('description')
+                        RichEditor::make('description')
                         ->columnSpanFull()
                         ->fileAttachmentsDirectory('products')
                     ])->columns(2),
@@ -82,7 +83,7 @@ class ProductResource extends Resource
                         TextInput::make('price')
                         ->required()
                         ->numeric()
-                        ->prefix('IDR')
+                        ->prefix('USD')
                     ]),
 
                     Section::make('Associations')->schema([
@@ -139,7 +140,7 @@ class ProductResource extends Resource
 
             Tables\Columns\TextColumn::make('price')
                 ->label('Price')
-                ->money('IDR')
+                ->money('USD')
                 ->sortable(),
             
             Tables\Columns\IconColumn::make('is_featured')
