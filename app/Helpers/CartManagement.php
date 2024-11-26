@@ -5,6 +5,8 @@ namespace App\Helpers;
 use App\Models\Product;
 use Illuminate\Support\Facades\Cookie;
 
+use function PHPUnit\Framework\returnSelf;
+
 class CartManagement {
 
     // add item to cart
@@ -81,12 +83,33 @@ class CartManagement {
         $cart_items = self::getCartItemsFromCookie();
 
         foreach($cart_items as $key => $item) {
-            
+            if($item['product_id'] == $product_id) {
+                $cart_items[$key]['quantity']++;
+                $cart_items[$key]['total_amount'] = $cart_items[$key]['quantity'] * $cart_items[$key]['unit_amount']; 
+            }
         }
+        self::addCartItemsToCookie($cart_items);
+        return $cart_items;
     }
 
     // decrement item quantity
+    static public function decrementQuantityToCartItem($product_id){
+        $cart_items = self::getCartItemsFromCookie();
+        foreach($cart_items as $key => $item) {
+            if($item['product_id'] == $product_id) {
+                if($cart_items[$key]['quantity'] > 1 ) {
+                    $cart_items[$key]['quantity']--;
+                    $cart_items[$key]['total_amount'] = $cart_items[$key]['quantity'] * $cart_items[$key]['unit_amount'];
+                }
+            }
+        }   
+        self::addCartItemsToCookie($cart_items);
+        return $cart_items;
+    }
+
 
     // calculate grand total
-
+    static public function calculateGrandTotal($items) {
+        return array_sum(array_column($items, 'total_amount'));
+    }
 }
