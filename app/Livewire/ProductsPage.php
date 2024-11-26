@@ -50,7 +50,7 @@ class ProductsPage extends Component
         if (!empty($this->search)) {
             $products->where(function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%')
-                      ->orWhere('description', 'like', '%' . $this->search . '%');
+                      ->orWhere('price', 'like', '%' . $this->search . '%');
             });
         }
     
