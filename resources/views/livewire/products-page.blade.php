@@ -38,12 +38,16 @@
                             <div class="p-4">
                                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Categories</h3>
                                 <div class="space-y-2">
-                                    @foreach($categories as $category)
-                                    <label class="flex items-center gap-2 cursor-pointer group">
-                                        <input type="checkbox" class="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500">
-                                        <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-indigo-500">{{ $category->name }}</span>
-                                    </label>
-                                    @endforeach
+                                    <ul>
+                                        @foreach($categories as $category)
+                                        <li class="mb-4" wire:key="{{ $category->id }}">
+                                            <label for="{{ $category->slug }}" class="flex items-center gap-2 cursor-pointer group">
+                                                <input type="checkbox" wire:model.live="selected_categories" id="{{ $category->slug }}" value="{{ $category->id }}" class="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500">
+                                                <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-indigo-500">{{ $category->name }}</span>
+                                            </label>
+                                        </li>
+                                        @endforeach
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -53,50 +57,58 @@
                             <div class="p-4">
                                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Brands</h3>
                                 <div class="space-y-2">
-                                    @foreach($brands as $brand)
-                                    <label class="flex items-center gap-2 cursor-pointer group">
-                                        <input type="checkbox" class="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500">
-                                        <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-indigo-500">{{ $brand->name }}</span>
-                                    </label>
-                                    @endforeach
+                                    <ul>
+                                        @foreach($brands as $brand)
+                                        <li class="mb-4" wire:key="{{ $brand->id }}">
+                                            <label for="{{ $brand->slug }}" class="flex items-center gap-2 cursor-pointer group">
+                                                <input type="checkbox" wire:model.live="selected_brands" id="{{ $brand->slug }}" value="{{ $brand->id }}" class="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500">
+                                                <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-indigo-500">{{ $brand->name }}</span>
+                                            </label>
+                                        </li>
+                                        @endforeach
+                                    </ul>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Price Range -->
-                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                        {{-- <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                             <div class="p-4">
                                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Price Range</h3>
                                 <div class="space-y-4">
                                     <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400">
-                                        <span>$100</span>
-                                        <span>$5,000</span>
+                                        <span>{{ Number::currency(100, 'USD')}}</span>
+                                        <span>{{ Number::currency(1000000, 'USD')}}</span>
                                     </div>
                                     <input 
+                                        wire:model.live='price_range'
                                         type="range" 
-                                        min="100" 
-                                        max="5000" 
-                                        value="2500"
+                                        min="10" 
+                                        max="1000000" 
+                                        value="100"
+                                        step="10"
                                         class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                                     >
                                     <div class="text-center text-sm font-medium text-indigo-600">
-                                        $2,500
+                                        {{ Number::currency($price_range, 'USD') }}
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <!-- Product Status -->
                         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                             <div class="p-4">
                                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Product Status</h3>
                                 <div class="space-y-2">
-                                    @foreach(['In Stock', 'On Sale', 'Pre-Order'] as $status)
-                                    <label class="flex items-center gap-2 cursor-pointer group">
-                                        <input type="checkbox" class="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500">
-                                        <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-indigo-500">{{ $status }}</span>
+                                   <label for="featured" class="flex items-center gap-2 cursor-pointer group">
+                                        <input type="checkbox" id="featured" wire:model.live="featured" value="1" class="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500">
+                                        <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-indigo-500">Featured</span>
                                     </label>
-                                    @endforeach
+                                    <label for="in_stock" class="flex items-center gap-2 cursor-pointer group">
+                                        <input type="checkbox" id="in_stock" wire:model.live="in_stock" value="1" class="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500">
+                                        <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-indigo-500">In Stock</span>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -137,7 +149,7 @@
 
                     <!-- Products Grid -->
                     <div class="w-full min-h-screen p-4">
-                        <div class="flex flex-wrap items-center justify-center gap-4">
+                        <div class="flex flex-wrap justify-center gap-4">
                             @foreach($products as $product)
                                 <div class="max-w-xs w-full sm:w-64 md:w-72 lg:w-80 group relative transform transition-all duration-300 ease-out">
                                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-2xl transition-shadow duration-300">
@@ -246,8 +258,6 @@
                                                     @endfor
                                                 </div>
                                             </div>
-                    
-                                            <p class="text-gray-700 dark:text-gray-300 mb-3 line-clamp-3">{{ $product->description }}</p>
                     
                                             <div class="flex justify-between items-center">
                                                 <p class="font-semibold text-lg text-gray-900 dark:text-white">
