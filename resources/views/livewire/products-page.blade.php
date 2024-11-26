@@ -114,14 +114,14 @@
                         </div>
 
                         <!-- Apply Filters Button (Mobile Only) -->
-                        <div class="lg:hidden">
+                        {{-- <div class="lg:hidden">
                             <button 
                                 onclick="document.getElementById('filterSidebar').classList.remove('translate-x-0')"
                                 class="w-full bg-indigo-600 text-white rounded-lg py-3 font-medium hover:bg-indigo-700 transition-colors"
                             >
                                 Apply Filters
                             </button>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
@@ -130,10 +130,10 @@
                     <!-- Sort Controls -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 mb-6">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                            <select class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
-                                <option>Latest</option>
-                                <option>Price: Low to High</option>
-                                <option>Price: High to Low</option>
+                            <select wire:model.live="sort" class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
+                                <option value="latest">Latest</option>
+                                <option value="price-asc">Price: Low to High</option>
+                                <option value="price-desc">Price: High to Low</option>
                                 <option>Popularity</option>
                             </select>
                             <div class="w-full">
@@ -150,14 +150,6 @@
                                         </svg>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-sm text-gray-500 dark:text-gray-400">Show:</span>
-                                <select class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm text-gray-700 dark:text-gray-300">
-                                    <option>12</option>
-                                    <option>24</option>
-                                    <option>36</option>
-                                </select>
                             </div>
                         </div>
                     </div>

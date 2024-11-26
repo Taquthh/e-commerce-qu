@@ -23,6 +23,8 @@ class ProductsPage extends Component
     public $featured;
     #[Url(history: true)]
     public $in_stock;
+    #[Url(history: true)]
+    public $sort = 'latest';
     #[Url(history: true)] 
     public $price_range = 10;
     public function render()
@@ -46,6 +48,18 @@ class ProductsPage extends Component
         if($this->in_stock) {
             $products->where('in_stock', 1);
         }
+
+        if($this->sort == 'lates') {
+            $products->orderBy('latest');
+        }
+
+        if ($this->sort == 'price-asc') {
+            $products->orderBy('price', 'asc'); // Low to High
+            
+        } elseif ($this->sort == 'price-desc') {
+            $products->orderBy('price', 'desc'); // High to Low
+        }
+        
 
         if (!empty($this->search)) {
             $products->where(function ($query) {
