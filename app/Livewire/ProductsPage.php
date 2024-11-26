@@ -13,13 +13,17 @@ class ProductsPage extends Component
 {
     use WithPagination;
 
-    #[Url]
+    #[Url(history: true)]
+    public $search;
+    #[Url(history: true)]
     public $selected_categories = [];   
-    #[Url]
-    public $selected_brands = [];   
-
+    #[Url(history: true)]
+    public $selected_brands = [];  
+    #[Url(history: true)] 
     public $featured;
+    #[Url(history: true)]
     public $in_stock;
+    #[Url(history: true)] 
     public $price_range = 10;
     public function render()
     {
@@ -43,6 +47,14 @@ class ProductsPage extends Component
             $products->where('in_stock', 1);
         }
 
+        if (!empty($this->search)) {
+            $products->where(function ($query) {
+                $query->where('name', 'like', '%' . $this->search . '%')
+                      ->orWhere('description', 'like', '%' . $this->search . '%');
+            });
+        }
+    
+
         // if($this->price_range) {
         //     $products->whereBetween('price', [0, $this->price_range]);
         // }
@@ -50,7 +62,7 @@ class ProductsPage extends Component
         return view('livewire.products-page', [
             'products' => $products->paginate(8),
             'categories' => $categories,
-            'brands' => $brands
+            'brands' => $brands,
         ]);
     }
 }
