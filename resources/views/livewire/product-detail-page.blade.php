@@ -243,52 +243,51 @@
 
             {{-- Quantity Selector --}}
             <div class="space-y-3">
-              <label for="quantity" class="block text-sm font-medium text-gray-700">
-                Quantity
-              </label>
-              <div class="flex items-center space-x-3" x-data="{ quantity: 1 }">
-                <button 
-                  type="button"
-                  x-on:click="quantity = Math.max(1, quantity - 1)"
-                  class="inline-flex items-center justify-center w-10 h-10 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                  <span class="sr-only">Decrease quantity</span>
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
-                  </svg>
-                </button>
-                
-                <input
-                  type="number"
-                  id="quantity"
-                  name="quantity"
-                  x-model="quantity"
-                  min="1"
-                  max="{{ $product->stock }}"
-                  class="block w-20 text-center border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                >
-
-                <button 
-                  type="button"
-                  x-on:click="quantity = Math.min({{ $product->stock }}, quantity + 1)"
-                  class="inline-flex items-center justify-center w-10 h-10 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                  <span class="sr-only">Increase quantity</span>
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                  </svg>
-                </button>
+              <div class="w-32 mb-8">
+                <label for="quantity" class="w-full pb-1 text-xl font-semibold text-gray-700 border-b border-blue-300 dark:border-gray-600 dark:text-gray-400">Quantity</label>
+                <div class="relative flex flex-row w-full h-10 mt-6 bg-transparent rounded-lg">
+                  <button wire:click='decreaseQty' class="w-20 h-full text-gray-600 bg-gray-300 rounded-l outline-none cursor-pointer dark:hover:bg-gray-700 dark:text-gray-400 hover:text-gray-700 dark:bg-gray-900 hover:bg-gray-400">
+                    <span class="m-auto text-2xl font-thin">-</span>
+                  </button>
+                  {{-- <input type="number" wire:model='quantity' readonly class="flex items-center w-full font-semibold text-center text-gray-700 placeholder-gray-700 bg-gray-300 outline-none dark:text-gray-400 dark:placeholder-gray-400 dark:bg-gray-900 focus:outline-none text-md hover:text-black"> --}}
+                  <input type="number" value="{{$quantity}}" readonly class="flex items-center w-full font-semibold text-center text-gray-700 placeholder-gray-700 bg-gray-300 outline-none dark:text-gray-400 dark:placeholder-gray-400 dark:bg-gray-900 focus:outline-none text-md hover:text-black">
+                  <button wire:click='increaseQty' class="w-20 h-full text-gray-600 bg-gray-300 rounded-r outline-none cursor-pointer dark:hover:bg-gray-700 dark:text-gray-400 dark:bg-gray-900 hover:text-gray-700 hover:bg-gray-400">
+                    <span class="m-auto text-2xl font-thin">+</span>
+                  </button>
+                </div>
               </div>
-            </div>
+            </div>  
 
             {{-- Add to Cart & Shipping Info --}}
             <div class="space-y-4 pt-6">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <button 
+                  @if(!$product->in_stock) disabled @endif
+                  wire:click.prevent='addToCart({{ $product->id }})'
+                  wire:loading.attr="disabled"
+                  wire:key="product-{{ $product->id }}"
+                  wire:loading.class="opacity-50 cursor-not-allowed"
                   type="button"
-                  class="w-full flex items-center justify-center px-6 py-4 text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                  class="w-full flex items-center justify-center px-6 py-4 text-base font-medium text-white bg-blue-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors
+                  {{ !$product->in_stock 
+                        ? 'bg-gray-300 cursor-not-allowed text-gray-700' 
+                        : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm' 
+                  }}"
                 >
-                  Add to Cart
+                <span 
+                wire:loading.remove 
+                wire:target='addToCart({{ $product->id }})' 
+                class="block"
+            >
+                {{ !$product->in_stock ? 'Out of Stock' : 'Add to Cart' }}
+            </span>
+            <span 
+                wire:loading 
+                wire:target='addToCart({{ $product->id }})' 
+                class="hidden"
+            >
+                Adding...
+            </span>
                 </button>
                 <button 
                   type="button"
@@ -481,7 +480,7 @@
         @foreach(range(1, 4) as $related)
         <div class="group relative">
           <div class="aspect-square w-full overflow-hidden rounded-lg bg-gray-100">
-            <img src="/api/placeholder/400/400" alt="Related Product" class="h-full w-full object-cover object-center group-hover:opacity-75">
+            <img src="" alt="Related Product" class="h-full w-full object-cover object-center group-hover:opacity-75">
           </div>
           <div class="mt-4">
             <h3 class="text-sm font-medium text-gray-900">

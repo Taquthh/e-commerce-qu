@@ -214,6 +214,7 @@
                                                     <!-- Quick Action Buttons -->
                                                     <div class="flex gap-3">
                                                         <a 
+                                                            wire:navigate
                                                             href="/products/{{ $product->slug }}"
                                                             class="bg-white/90 p-3 rounded-full hover:bg-indigo-500 hover:text-white transition-colors duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                                             aria-label="View details of {{ $product->name }}"
@@ -279,18 +280,36 @@
                                                 </p>
                                                 
                                                 <button 
-                                                    @if(!$product->in_stock) disabled @endif
-                                                    class="flex items-center gap-2 py-1.5 px-3 rounded-md text-sm font-medium transition-all duration-200 transform hover:scale-105 hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 
-                                                    {{ !$product->in_stock 
-                                                        ? 'bg-gray-300 cursor-not-allowed text-gray-700' 
-                                                        : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm' 
-                                                    }}"
-                                                >
+                                                wire:click.prevent='addToCart({{ $product->id }})'
+                                                wire:loading.attr="disabled"
+                                                wire:key="product-{{ $product->id }}"
+                                                wire:loading.class="opacity-50 cursor-not-allowed"
+                                                @if(!$product->in_stock) disabled @endif
+                                                class="flex items-center justify-center gap-2 py-1.5 px-3 rounded-md text-sm font-medium transition-all duration-200 transform hover:scale-105 hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 
+                                                {{ !$product->in_stock 
+                                                    ? 'bg-gray-300 cursor-not-allowed text-gray-700' 
+                                                    : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm' 
+                                                }}"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                                                  </svg>                                                  
-                                                    <span>{{ !$product->in_stock ? 'Out of Stock' : 'Add to Cart' }}</span>
-                                                </button>   
+                                                </svg>
+                                                <span 
+                                                    wire:loading.remove 
+                                                    wire:target='addToCart({{ $product->id }})' 
+                                                    class="block"
+                                                >
+                                                    {{ !$product->in_stock ? 'Out of Stock' : 'Add to Cart' }}
+                                                </span>
+                                                <span 
+                                                    wire:loading 
+                                                    wire:target='addToCart({{ $product->id }})' 
+                                                    class="hidden"
+                                                >
+                                                    Adding...
+                                                </span>
+                                            </button>                                            
+                                                                        
                                             </div>
                                         </div>
                                     </div>

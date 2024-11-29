@@ -22,15 +22,15 @@
 
           <!-- Navigation Links -->
           <nav class="hidden md:flex space-x-10">
-              <a wire:navigate href="/" class="text-base {{ request()->is('/') ? 'text-blue-600' : 'text-gray-500'}}  font-medium  hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-300 relative group">
+              <a href="/" class="text-base {{ request()->is('/') ? 'text-blue-600' : 'text-gray-500'}}  font-medium  hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-300 relative group">
                   Home
                   <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
               </a>
-              <a wire:navigate href="/categories" class="text-base {{ request()->is('categories') ? 'text-blue-600' : 'text-gray-500'}} font-medium hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-300 relative group">
+              <a href="/categories" class="text-base {{ request()->is('categories') ? 'text-blue-600' : 'text-gray-500'}} font-medium hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-300 relative group">
                   Categories
                   <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
               </a>
-              <a wire:navigate href="/products" class="text-base {{ request()->is('products') ? 'text-blue-600' : 'text-gray-500'}} font-medium  hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-300 relative group">
+              <a href="/products" class="text-base {{ request()->is('products') ? 'text-blue-600' : 'text-gray-500'}} font-medium  hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-300 relative group">
                   Products
                   <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
               </a>
@@ -44,7 +44,7 @@
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                       </svg>
                       <span>Cart</span>
-                      <span class="ml-2 px-2 py-0.5 text-xs font-bold text-white bg-blue-600 rounded-full group-hover:bg-blue-700 transition-colors duration-300">4</span>
+                      <span class="ml-2 px-2 py-0.5 text-xs font-bold text-white bg-blue-600 rounded-full group-hover:bg-blue-700 transition-colors duration-300">{{ $total_count }}</span>
                   </div>
               </a>
 
